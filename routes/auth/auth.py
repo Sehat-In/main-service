@@ -7,6 +7,7 @@ from pydantic import BaseModel
 import requests
 import os
 
+@dataclass
 class UserRequest(BaseModel):
     username: str
     password: str
