@@ -42,7 +42,7 @@ async def refresh(request: Request):
         return HTTPException(status_code=401, detail="Unauthorized")
     token = request.headers["Authorization"]
     result = requests.get(api_url + "/refresh", headers={"Authorization": token})
-    if (result.status_code != 200):
+    if (result.status_code == 200):
         return result.json()
     return HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
@@ -52,7 +52,7 @@ async def get_data_from_token(request: Request):
         return HTTPException(status_code=401, detail="Unauthorized")
     token = request.headers["Authorization"]
     result = requests.get(api_url + "/get-data-from-token", headers={"Authorization": token})
-    if (result.status_code != 200):
+    if (result.status_code == 200):
         return result.json()
     return HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
