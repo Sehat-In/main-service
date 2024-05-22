@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from dotenv import load_dotenv
 import dataclasses
+from dotenv import load_dotenv
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
