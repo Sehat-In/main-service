@@ -1,4 +1,4 @@
-name: Auth Service CI/CD
+name: Main Service CI/CD
 
 on:
   push:
@@ -46,5 +46,5 @@ jobs:
           sudo docker container rm -f sehatin_main_service || true &&
           sudo docker image rm -f ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest || true &&
           sudo docker pull ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest &&
-          sudo docker run --name sehatin_auth_service -d -p 3005:8000 ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest"
+          sudo docker run --name sehatin_main_service -d -p 3005:8000 ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest"
     if: github.ref == 'refs/heads/main'
