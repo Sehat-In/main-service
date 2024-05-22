@@ -15,7 +15,7 @@ router = APIRouter()
 
 load_dotenv()
 
-api_url = os.getenv("AUTH_API") + "/api/v1/auth"
+api_url = os.getenv("AUTH_API_URL") + "/api/v1/auth"
 
 @router.get("/login-google")
 async def login_google():
