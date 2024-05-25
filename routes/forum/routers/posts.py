@@ -20,7 +20,7 @@ async def check_notification(username: str):
 async def get_notifications(username: str):
     result = requests.get(api_url + f"/api/v1/posts/get-notifications/{username}")
     if result.status_code == 200:
-        return result
+        return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
 @router.get("/remove-notifications/{username}")
