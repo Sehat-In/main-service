@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi import APIRouter
 from routes.auth import auth
 from routes.forum.routers import posts
+from routes.progress_tracking import progress_tracking
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -28,3 +29,4 @@ async def hello():
 app.include_router(router1, prefix="/api/v1")
 app.include_router(auth.router, prefix="/api/v1/auth")  
 app.include_router(posts.router, prefix="/api/v1/posts")
+app.include_router(progress_tracking.router, prefix="/api/v1")
