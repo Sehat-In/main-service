@@ -76,28 +76,28 @@ def add_goal(goal: GoalCreate):
 
 @router.put("/goals/{goal_id}/update-goal/")
 def update_goal(goal_id: int, goal_update: GoalUpdate):
-    result = requests.post(api_url + f"/api/v1/goals/{goal_id}/update-goal/", json=dataclasses.asdict(goal_update))
+    result = requests.put(api_url + f"/api/v1/goals/{goal_id}/update-goal/", json=dataclasses.asdict(goal_update))
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
 @router.delete("/goals/{goal_id}/delete-goal/")
 def delete_goal(goal_id: int):
-    result = requests.post(api_url + f"/api/v1/goals/{goal_id}/delete-goal/")
+    result = requests.delete(api_url + f"/api/v1/goals/{goal_id}/delete-goal/")
     if result.status_code == 200:
         return result.text
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
 @router.get("/goals/{goal_id}/")
 def get_goal(goal_id: int):
-    result = requests.post(api_url + f"/api/v1/goals/{goal_id}/")
+    result = requests.get(api_url + f"/api/v1/goals/{goal_id}/")
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
 @router.get("/{user_id}/goals/")
 def get_all_user_goal(user_id: int):
-    result = requests.post(api_url + f"/api/v1/{user_id}/goals/")
+    result = requests.get(api_url + f"/api/v1/{user_id}/goals/")
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
@@ -111,21 +111,21 @@ def create_user_progress(user_progress: UserProgressCreate):
 
 @router.put("/{user_id}/update-progress/")
 def update_user_progress(user_id: int, user_progress_update: UserProgressUpdate):
-    result = requests.post(api_url + f"/api/v1/{user_id}/update-progress/", json=dataclasses.asdict(user_progress_update))
+    result = requests.put(api_url + f"/api/v1/{user_id}/update-progress/", json=dataclasses.asdict(user_progress_update))
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
 @router.delete("/{user_id}/clear-progress/")
 def clear_user_progress(user_id: int):
-    result = requests.post(api_url + f"/api/v1/{user_id}/clear-progress/")
+    result = requests.delete(api_url + f"/api/v1/{user_id}/clear-progress/")
     if result.status_code == 200:
         return result.text
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
 @router.get("/{user_id}/progress/")
 def get_user_progress(user_id: int):
-    result = requests.post(api_url + f"/api/v1/{user_id}/progress/")
+    result = requests.get(api_url + f"/api/v1/{user_id}/progress/")
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
