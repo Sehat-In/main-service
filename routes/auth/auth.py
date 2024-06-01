@@ -28,7 +28,7 @@ async def login(user: UserRequest):
     result = requests.post(api_url + "/login", json=dataclasses.asdict(user))
     if (result.status_code != 201):
         raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))    
-    temp = requests.post(api_url_progress + f"/api/v1/{result.json().get("id")}")
+    temp = requests.post(api_url_progress + f"/api/v1/{result.json().get("id")}/create-progress")
     if (temp.status_code != 201):
         raise HTTPException(status_code=temp.status_code, detail=temp.json().get("detail"))   
     return result.json()
