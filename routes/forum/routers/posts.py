@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException, Response
+from pydantic import BaseModel
 import requests
 import os
 
@@ -8,6 +9,47 @@ router = APIRouter()
 load_dotenv()
 
 api_url = os.getenv("FORUM_API_URL")
+
+class PostRequest(BaseModel):
+    title: str
+    content: str
+    username: str
+
+@router.get("/get/all")
+async def get_all_post():
+    result = requests.get(api_url + f"/api/v1/posts/get/all")
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json())
+
+@router.get("/get/{post_id}")
+async def get_post(post_id: str):
+    result = requests.get(api_url + f"/api/v1/posts/get/{post_id}")
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json())
+
+@router.post("/create")
+async def create_post(post: PostRequest):
+    result = requests.post(api_url + f"/api/v1/posts/create", json=post.model_dump())
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json())
+
+@router.delete("/delete/{post_id}")
+async def delete_post(post_id: str):
+    result = requests.delete(api_url + f"/api/v1/posts/delete/{post_id}")
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json())
+
+@router.put("/update/{post_id}")
+async def update_post(post_id: str):
+    result = requests.put(api_url + f"/api/v1/posts/update/{post_id}")
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json())
+
 
 @router.get("/check-notification/{username}")
 async def check_notification(username: str):
