@@ -50,14 +50,6 @@ class GoalUpdate:
     progress: Optional[float] = None
     is_completed: Optional[bool] = None
 
-@dataclass
-class UserProgressBase:
-    user_id: int
-
-@dataclass
-class UserProgressCreate(UserProgressBase):
-    pass
-
 ########################################### methods ###########################################
 
 def serialize_goal(goal) -> dict:
@@ -75,7 +67,7 @@ def add_goal(goal: GoalCreate):
     result = requests.post(api_url + "/api/v1/goals/new-goal", json=goal_data)
     if result.status_code == 201:
         return result.json()
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("detail"))
 
 @router.put("/goals/{goal_id}/update-goal/")
 def update_goal(goal_id: int, goal_update: GoalUpdate):
@@ -83,53 +75,46 @@ def update_goal(goal_id: int, goal_update: GoalUpdate):
     result = requests.put(api_url + f"/api/v1/goals/{goal_id}/update-goal/", json=goal_data)
     if result.status_code == 200:
         return result.json()
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("detail"))
 
 @router.delete("/goals/{goal_id}/delete-goal/")
 def delete_goal(goal_id: int):
     result = requests.delete(api_url + f"/api/v1/goals/{goal_id}/delete-goal/")
     if result.status_code == 200:
         return result.text
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("detail"))
 
 @router.get("/goals/{goal_id}/")
 def get_goal(goal_id: int):
     result = requests.get(api_url + f"/api/v1/goals/{goal_id}/")
     if result.status_code == 200:
         return result.json()
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("detail"))
 
 @router.get("/{user_id}/goals/")
 def get_all_user_goal(user_id: int):
     result = requests.get(api_url + f"/api/v1/{user_id}/goals/")
     if result.status_code == 200:
         return result.json()
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("detail"))
 
-@router.post("/create-progress/")
-def create_user_progress(user_progress: UserProgressCreate):
-    result = requests.post(api_url + "/api/v1/create-progress/", json=dataclasses.asdict(user_progress))
+@router.post("/{user_id}/create-progress/")
+def create_user_progress(user_id: int):
+    result = requests.post(api_url + f"/api/v1/{user_id}/create-progress/")
     if result.status_code == 201:
         return result.json()
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
-
-@router.put("/{user_id}/update-progress/")
-def update_user_progress(user_id: int):
-    result = requests.put(api_url + f"/api/v1/{user_id}/update-progress/")
-    if result.status_code == 200:
-        return result.json()
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("detail"))
 
 @router.delete("/{user_id}/clear-progress/")
 def clear_user_progress(user_id: int):
     result = requests.delete(api_url + f"/api/v1/{user_id}/clear-progress/")
     if result.status_code == 200:
         return result.text
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("detail"))
 
 @router.get("/{user_id}/progress/")
 def get_user_progress(user_id: int):
     result = requests.get(api_url + f"/api/v1/{user_id}/progress/")
     if result.status_code == 200:
         return result.json()
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("detail"))
