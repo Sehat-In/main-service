@@ -15,6 +15,10 @@ class PostRequest(BaseModel):
     content: str
     username: str
 
+class PostUpdateRequest(BaseModel):
+    title: str
+    content: str
+
 @router.get("/get/all")
 async def get_all_post():
     result = requests.get(api_url + f"/api/v1/posts/get/all")
@@ -44,8 +48,8 @@ async def delete_post(post_id: str):
     raise HTTPException(status_code=result.status_code, detail=result.json())
 
 @router.put("/update/{post_id}")
-async def update_post(post_id: str):
-    result = requests.put(api_url + f"/api/v1/posts/update/{post_id}")
+async def update_post(post_id: str, post: PostUpdateRequest):
+    result = requests.put(api_url + f"/api/v1/posts/update/{post_id}", json=post.model_dump())
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json())
