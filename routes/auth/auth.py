@@ -17,6 +17,7 @@ router = APIRouter()
 load_dotenv()
 
 api_url = os.getenv("AUTH_API_URL") + "/api/v1/auth"
+api_url_progress = os.getenv("PROGRESS_API_URL")
 
 @router.get("/login-google")
 async def login_google():
@@ -24,10 +25,13 @@ async def login_google():
 
 @router.post("/login")
 async def login(user: UserRequest):
-    result = requests.post(api_url + "/login", json=dataclasses.asdict(user))   
-    if result.status_code == 201:
-        return result.json()
-    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+    result = requests.post(api_url + "/login", json=dataclasses.asdict(user))
+    if (result.status_code != 201):
+        raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))    
+    temp = requests.post(api_url_progress + f"/api/v1/{result.json().get("id")}")
+    if (temp.status_code != 201):
+        raise HTTPException(status_code=temp.status_code, detail=temp.json().get("detail"))   
+    return result.json()
 
 @router.post("/register")
 async def register(user: UserRequest):
