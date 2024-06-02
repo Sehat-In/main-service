@@ -23,6 +23,7 @@ class GoalType(Enum):
 
 class PeriodUnit(Enum):
     HOUR = "hour"
+    WEEK = "week"
     DAY = "day"
     MONTH = "month"
     YEAR = "year"
