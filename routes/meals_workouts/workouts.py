@@ -21,7 +21,7 @@ router = APIRouter(prefix="/workouts", tags=["workouts"])
 
 load_dotenv()
 
-api_url = os.getenv("MEALS_WORKOUTS_API_URL")
+api_url = os.getenv("MEAL_WORKOUT_API_URL")
 
 
 class ExerciseBase(BaseModel):
