@@ -14,6 +14,9 @@ class LikeRequest(BaseModel):
     post_id: str
     username: str
 
+class UserRequest(BaseModel):
+    username: str
+
 @router.get("/get/{post_id}")
 async def get_likes(post_id: str):
     result = requests.get(api_url + f"/api/v1/likes/get/{post_id}")
@@ -35,3 +38,16 @@ async def like_post(like: LikeRequest):
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json())
 
+@router.delete("/delete/{post_id}")
+async def remove_like(post_id: str):
+    result = requests.delete(api_url + f"/api/v1/likes/remove/{post_id}")
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json())
+
+@router.post("/get-user/{post_id}")
+async def get_user_like(post_id: str, like: UserRequest):
+    result = requests.post(api_url + f"/api/v1/likes/get-user/{post_id}", json=like.model_dump())
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json())
