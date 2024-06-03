@@ -91,7 +91,7 @@ async def subscribe(request: SubscribeRequest):
 async def subscribe(request: SubscribeRequest):
     result = requests.delete(api_url + f"/api/v1/posts/unsubscribe", json=request.model_dump())
     if result.status_code == 200:
-        return result.json()
+        return result.text
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
 
 @router.get("/get-subscriptions/{username}")
