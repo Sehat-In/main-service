@@ -31,16 +31,16 @@ async def get_likes_count(post_id: str):
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json())
 
-@router.post("/add")
-async def like_post(like: LikeRequest):
-    result = requests.post(api_url + f"/api/v1/likes/add", json=like.model_dump())
+@router.post("/like/{post_id}")
+async def like_post(post_id: str, like: UserRequest):
+    result = requests.post(api_url + f"/api/v1/likes/add/{post_id}", json=like.model_dump())
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json())
 
-@router.delete("/delete/{post_id}")
-async def remove_like(post_id: str):
-    result = requests.delete(api_url + f"/api/v1/likes/remove/{post_id}")
+@router.delete("/unlike/{post_id}")
+async def remove_like(post_id: str, like: UserRequest):
+    result = requests.delete(api_url + f"/api/v1/likes/remove/{post_id}", json=like.model_dump())
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json())
