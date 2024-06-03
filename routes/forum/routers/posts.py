@@ -19,6 +19,10 @@ class PostUpdateRequest(BaseModel):
     title: str
     content: str
 
+class SubscribeRequest(BaseModel):
+    username: str
+    post_id: str
+
 @router.get("/get/all")
 async def get_all_post():
     result = requests.get(api_url + f"/api/v1/posts/get/all")
@@ -72,6 +76,27 @@ async def get_notifications(username: str):
 @router.get("/remove-notifications/{username}")
 async def remove_notifications(username: str):
     result = requests.get(api_url + f"/api/v1/posts/remove-notifications/{username}")
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+
+@router.post("/subscribe")
+async def subscribe(request: SubscribeRequest):
+    result = request.post(api_url + f"/api/v1/posts/subscribe", json=request.model_dump())
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+
+@router.delete("/unsubscribe")
+async def subscribe(request: SubscribeRequest):
+    result = request.delete(api_url + f"/api/v1/posts/unsubscribe", json=request.model_dump())
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
+
+@router.get("/get-subscriptions/{username}")
+async def get_subscriptions(username: str):
+    result = requests.get(api_url + f"/api/v1/posts/get-subscriptions/{username}")
     if result.status_code == 200:
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json().get("message"))
