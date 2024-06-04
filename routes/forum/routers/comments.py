@@ -24,6 +24,13 @@ async def get_comment(comment_id: str):
         return result.json()
     raise HTTPException(status_code=result.status_code, detail=result.json())
 
+@router.get("/get-comment/{comment_id}")
+async def get_comment(comment_id: str):
+    result = requests.get(api_url + f"/api/v1/comments/get-comment/{comment_id}")
+    if result.status_code == 200:
+        return result.json()
+    raise HTTPException(status_code=result.status_code, detail=result.json())
+
 @router.post("/create/{post_id}")
 async def create_comment(post_id: str, comment: CommentRequest):
     result = requests.post(api_url + f"/api/v1/comments/create/{post_id}", json=comment.model_dump())
